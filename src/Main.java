@@ -12,12 +12,12 @@ public class Main {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept(); // ждем подключения
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
+                try ( PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+){
                 System.out.printf("Принято новое соединенение. Порт: %d%n", clientSocket.getPort());
                 String name = in.readLine();
-                out.println(String.format("Привет %s, твой порт: %d", name, clientSocket.getPort()));
+                out.println(String.format("Привет %s, твой порт: %d", name, clientSocket.getPort()));}
             }
         }
     }
